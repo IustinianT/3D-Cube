@@ -19,7 +19,6 @@ class Cube:
         for i in range(0, 4):
             pygame.draw.line(screen, [255, 255, 255], self.points[i], self.points2[i], 1)
 
-
     def rotate_horizontally(self, degrees_per_frame):
         self.center = ((self.points[0][0]+self.points[2][0])/2, (self.points[0][1]+self.points[2][1])/2)
 
@@ -67,7 +66,6 @@ def main():
         if keys[pygame.K_DOWN]:
             if degrees_per_frame > 0.05:
                 degrees_per_frame -= 0.05
-        
         
         pygame.display.update()
 
