@@ -38,6 +38,17 @@ class Cube:
         self.p8 = [self.points[3][0], self.points[3][1]+self.height]
         self.points2 = [self.p5, self.p6, self.p7, self.p8]
 
+def generate_cubes( x, y, focused_cube = 1, amount = 3, size = 80):
+    generated_cubes = []
+    for i in range(0, amount*size, size):
+        for j in range(0, amount*size, size):
+            generated_cubes.append(Cube([x+i, y+j], [x+size+i, y+j], [x+size+i, y+size+j], [x+i, y+size+j], size))
+
+    for cube in generated_cubes:
+        cube.center = generated_cubes[focused_cube - 1].center
+
+    return generated_cubes
+
 def main():
     pygame.init()
     screen_size = [780, 540]
@@ -49,31 +60,40 @@ def main():
 
     cube_list = []
 
-    cube = Cube([290,230], [370,150], [450,230], [370,310], 80)
+    cube = Cube([290,230], [370,230], [370,310], [290,310], 80)
     cube_list.append(cube)
-    cube2 = Cube([90,230], [170,150], [250,230], [170,310], 80)
+    cube2 = Cube([210,230], [290,230], [290,310], [210,310], 80)
     cube2.center = cube.center
     cube_list.append(cube2)
-    cube3 = Cube([490,230], [570,150], [650,230], [570,310], 80)
+    cube3 = Cube([370,230], [450,230], [450,310], [370,310], 80)
     cube3.center = cube.center
     cube_list.append(cube3)
     degrees_per_frame = 2
+
+    generated_cubes = generate_cubes(100, 100, 11, 4, 80)
 
     end = False
     while end == False:
         clock.tick(60)
         screen.fill([0, 0, 0])
 
-        for cub in cube_list:
-            cub.draw(screen)
+        #for cub in cube_list:
+            #cub.draw(screen)
         
+        for cub in generated_cubes:
+            cub.draw(screen)
+
         keys = pygame.key.get_pressed()
         
         if keys[pygame.K_RIGHT]:
             for cub in cube_list:
                 cub.rotate_horizontally(degrees_per_frame)
+            for cub in generated_cubes:
+                cub.rotate_horizontally(degrees_per_frame)
         elif keys[pygame.K_LEFT]:
             for cub in cube_list:
+                cub.rotate_horizontally(-1*degrees_per_frame)
+            for cub in generated_cubes:
                 cub.rotate_horizontally(-1*degrees_per_frame)
         if keys[pygame.K_UP]:
             degrees_per_frame += 0.05
