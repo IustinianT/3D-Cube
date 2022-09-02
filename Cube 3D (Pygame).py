@@ -26,6 +26,8 @@ class Cube:
         matrix = [(math.cos(radians), -1*math.sin(radians)), (math.sin(radians), math.cos(radians))]
 
         for i in range(0, len(self.points)):
+            temp_x = self.points[i][0]
+            temp_y = self.points[i][1]
             point_x = self.center[0] + matrix[0][0]*(self.center[0]-self.points[i][0]) + matrix[0][1]*(self.center[1]-self.points[i][1])
             point_y = self.center[1] + matrix[1][0]*(self.center[0]-self.points[i][0]) + matrix[1][1]*(self.center[1]-self.points[i][1])
             self.points[i] = [point_x, point_y]
@@ -45,7 +47,16 @@ def main():
     
     screen.fill([0, 0, 0])
 
+    cube_list = []
+
     cube = Cube([290,230], [370,150], [450,230], [370,310], 80)
+    cube_list.append(cube)
+    cube2 = Cube([90,230], [170,150], [250,230], [170,310], 80)
+    cube2.center = cube.center
+    cube_list.append(cube2)
+    cube3 = Cube([490,230], [570,150], [650,230], [570,310], 80)
+    cube3.center = cube.center
+    cube_list.append(cube3)
     degrees_per_frame = 2
 
     end = False
@@ -53,14 +64,17 @@ def main():
         clock.tick(60)
         screen.fill([0, 0, 0])
 
-        cube.draw(screen)
+        for cub in cube_list:
+            cub.draw(screen)
         
         keys = pygame.key.get_pressed()
         
         if keys[pygame.K_RIGHT]:
-            cube.rotate_horizontally(degrees_per_frame)
+            for cub in cube_list:
+                cub.rotate_horizontally(degrees_per_frame)
         elif keys[pygame.K_LEFT]:
-            cube.rotate_horizontally(-1*degrees_per_frame)
+            for cub in cube_list:
+                cub.rotate_horizontally(-1*degrees_per_frame)
         if keys[pygame.K_UP]:
             degrees_per_frame += 0.05
         if keys[pygame.K_DOWN]:
