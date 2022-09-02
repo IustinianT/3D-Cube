@@ -20,7 +20,7 @@ class Cube:
             pygame.draw.line(screen, [255, 255, 255], self.points[i], self.points2[i], 1)
 
     def rotate_horizontally(self, degrees_per_frame):
-        self.center = ((self.points[0][0]+self.points[2][0])/2, (self.points[0][1]+self.points[2][1])/2)
+        #self.center = ((self.points[0][0]+self.points[2][0])/2, (self.points[0][1]+self.points[2][1])/2)
 
         radians = math.pi/180 * degrees_per_frame
         matrix = [(math.cos(radians), -1*math.sin(radians)), (math.sin(radians), math.cos(radians))]
@@ -28,8 +28,8 @@ class Cube:
         for i in range(0, len(self.points)):
             temp_x = self.points[i][0]
             temp_y = self.points[i][1]
-            point_x = self.center[0] + matrix[0][0]*(self.center[0]-self.points[i][0]) + matrix[0][1]*(self.center[1]-self.points[i][1])
-            point_y = self.center[1] + matrix[1][0]*(self.center[0]-self.points[i][0]) + matrix[1][1]*(self.center[1]-self.points[i][1])
+            point_x = self.center[0] + matrix[0][0]*(self.points[i][0]-self.center[0]) + matrix[0][1]*(self.points[i][1]-self.center[1])
+            point_y = self.center[1] + matrix[1][0]*(self.points[i][0]-self.center[0]) + matrix[1][1]*(self.points[i][1]-self.center[1])
             self.points[i] = [point_x, point_y]
 
         self.p5 = [self.points[0][0], self.points[0][1]+self.height]
